@@ -3,7 +3,7 @@ import requests
 import argparse
 from collections import namedtuple
 from os import environ
-from datetime import datetime, tzinfo
+from datetime import datetime, timedelta, tzinfo
 import time
 import json
 from math import ceil
@@ -65,13 +65,13 @@ def print_plan(args):
     # find the number of days
     day_count = 0
     first_day = True
-    while (first_day) or (iter_date.day < reset_day):
+    while (first_day) or (iter_date.day != reset_day):
         first_day = False
         # monday is 0, sunday is 6, friday,saturday are 4,5
         if iter_date.weekday() not in [4, 5]:
             day_count += 1
 
-        iter_date = datetime(iter_date.year, iter_date.month, iter_date.day + 1)
+        iter_date = iter_date + timedelta(days=1)
 
     if day_count == 0:
         print("no days... why are you doing this on a weekend???")
